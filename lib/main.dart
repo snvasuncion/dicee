@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -6,7 +8,11 @@ void main() {
       home: Scaffold(
         backgroundColor: Colors.red,
         appBar: AppBar(
-          title: const Center(child: Text('Dicee', style: TextStyle(color: Colors.white),)),
+          title: const Center(
+              child: Text(
+            'Dicee',
+            style: TextStyle(color: Colors.white),
+          )),
           backgroundColor: Colors.red,
         ),
         body: const DicePage(),
@@ -15,22 +21,42 @@ void main() {
   );
 }
 
-class DicePage extends StatelessWidget {
+class DicePage extends StatefulWidget {
   const DicePage({super.key});
+
+  @override
+  State<DicePage> createState() => _DicePageState();
+}
+
+class _DicePageState extends State<DicePage> {
+  int leftDice = 1;
+  int rightDice = 1;
+  void diceRoll() {
+    leftDice = Random().nextInt(6) + 1;
+    rightDice = Random().nextInt(6) + 1;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Row(
         children: [
-          Expanded(child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextButton(onPressed:(){}, child: Image.asset('images/dice1.png')),
-          )),
-          Expanded(child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextButton(onPressed:(){}, child: Image.asset('images/dice1.png')),
-          ))
+          Expanded(
+              child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      diceRoll();
+                    });
+                  },
+                  child: Image.asset('images/dice$leftDice.png'))),
+          Expanded(
+              child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      diceRoll();
+                    });
+                  },
+                  child: Image.asset('images/dice$rightDice.png')))
         ],
       ),
     );
